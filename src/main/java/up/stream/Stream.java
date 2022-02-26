@@ -627,6 +627,24 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Drops elements from the beginning of this stream
+     * until an element which fails the predicate is
+     * found.
+     *
+     * Even if an element which passes the predicate
+     * is found later, it won't be dropped.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * elements passing the predicate dropped.
+     */
+    public Stream<T> dropWhile(final Predicate<? super T> predicate) {
+        return new DropUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
      * Cycles this stream infinitely many times.
      *
      * <p>This is an intermediate operation.</p>

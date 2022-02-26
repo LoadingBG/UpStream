@@ -118,7 +118,7 @@
 ```diff
 + drop(long)
 + dropUntil(Predicate<T>)
-  dropWhile(Predicate<T>)
++ dropWhile(Predicate<T>)
   take(long)
   takeUntil(Predicate<T>)
   takeWhile(Predicate<T>)

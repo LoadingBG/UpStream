@@ -20,7 +20,7 @@ final class CycleStream<T> extends Stream<T> {
         Optional<T> elem = curr.next();
         if (!elem.isPresent() && (times == -1 || currCycle != times)) {
             curr = prev.copy();
-            elem =  curr.next();
+            elem = curr.next();
             ++currCycle;
         }
         return elem;

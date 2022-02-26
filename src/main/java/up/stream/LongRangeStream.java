@@ -7,21 +7,30 @@ final class LongRangeStream extends Stream<Long> {
     private final long end;
     private final long step;
     private long curr;
+    private boolean hasWrapped;
 
     LongRangeStream(final long start, final long end, final long step) {
         this.start = start;
         this.end = end;
         this.step = step;
         curr = start;
+        hasWrapped = false;
     }
 
     @Override
     protected Optional<Long> next() {
-        if (curr > end) {
+        if (hasWrapped || curr >= end) {
             return Optional.empty();
         }
+
         final Optional<Long> res = Optional.of(curr);
+
+        final boolean wasPositive = curr > 0;
         curr += step;
+        if (wasPositive && curr < 0) {
+            hasWrapped = true;
+        }
+
         return res;
     }
 

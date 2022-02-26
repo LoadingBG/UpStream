@@ -599,13 +599,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param elemsToDrop The number of elements
+     * @param count The number of elements
      *                    to drop.
      * @return A stream without the first number
      * of elements specified.
      */
-    public Stream<T> drop(final long elemsToDrop) {
-        return new DropStream<>(this, elemsToDrop);
+    public Stream<T> drop(final long count) {
+        return new DropStream<>(this, count);
     }
 
     /**
@@ -642,6 +642,48 @@ public abstract class Stream<T> {
      */
     public Stream<T> dropWhile(final Predicate<? super T> predicate) {
         return new DropUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
+     * Takes the first {@code count} elements from
+     * this stream and discards the rest.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param count The number of elements to take.
+     * @return A stream with the first {@code count}
+     * elements from this stream.
+     */
+    public Stream<T> take(final long count) {
+        return new TakeStream<>(this, count);
+    }
+
+    /**
+     * Takes elements from this stream until an
+     * element which passes the predicate is found.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * elements which fail the predicate.
+     */
+    public Stream<T> takeUntil(final Predicate<? super T> predicate) {
+        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate));
+    }
+
+    /**
+     * Takes elements from this stream while they
+     * pass the predicate.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * elements which pass the predicate.
+     */
+    public Stream<T> takeWhile(final Predicate<? super T> predicate) {
+        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**

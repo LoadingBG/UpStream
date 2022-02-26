@@ -597,6 +597,8 @@ public abstract class Stream<T> {
      * Drops the specified number of elements
      * from the beginning of this stream.
      *
+     * <p>This is an intermediate operation.</p>
+     *
      * @param elemsToDrop The number of elements
      *                    to drop.
      * @return A stream without the first number
@@ -604,6 +606,24 @@ public abstract class Stream<T> {
      */
     public Stream<T> drop(final long elemsToDrop) {
         return new DropStream<>(this, elemsToDrop);
+    }
+
+    /**
+     * Drops elements from the beginning of this stream
+     * until an element which passes the predicate is
+     * found.
+     *
+     * Even if an element which fails the predicate is
+     * found later, it won't be dropped.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * elements failing the predicate dropped.
+     */
+    public Stream<T> dropUntil(final Predicate<? super T> predicate) {
+        return new DropUntilStream<>(this, Objects.requireNonNull(predicate));
     }
 
     /**

@@ -599,13 +599,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param elemsToDrop The number of elements
+     * @param count The number of elements
      *                    to drop.
      * @return A stream without the first number
      * of elements specified.
      */
-    public Stream<T> drop(final long elemsToDrop) {
-        return new DropStream<>(this, elemsToDrop);
+    public Stream<T> drop(final long count) {
+        return new DropStream<>(this, count);
     }
 
     /**

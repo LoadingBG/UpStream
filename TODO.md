@@ -19,6 +19,7 @@
 | `OfArrayStream` | Don't copy primitive arrays                          |
 | everywhere      | Make optimised versions of methods if possible       |
 | everywhere      | Check for infinite streams where they aren't allowed |
+| `DropStream`    | Make a protected method for dropping                 |
 
 ## Creators
 

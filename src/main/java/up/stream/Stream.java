@@ -673,6 +673,20 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Takes elements from this stream while they
+     * pass the predicate.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * elements which pass the predicate.
+     */
+    public Stream<T> takeWhile(final Predicate<? super T> predicate) {
+        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
      * Cycles this stream infinitely many times.
      *
      * <p>This is an intermediate operation.</p>

@@ -645,6 +645,20 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Takes the first {@code count} elements from
+     * this stream and discards the rest.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param count The number of elements to take.
+     * @return A stream with the first {@code count}
+     * elements from this stream.
+     */
+    public Stream<T> take(final long count) {
+        return new TakeStream<>(this, count);
+    }
+
+    /**
      * Cycles this stream infinitely many times.
      *
      * <p>This is an intermediate operation.</p>

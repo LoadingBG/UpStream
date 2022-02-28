@@ -772,6 +772,17 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Checks if this stream contains no elements.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @return Whether this stream is empty.
+     */
+    public boolean isEmpty() {
+        return (sizeBounds().lower() == 0 && sizeBounds().upper() == 0) || !next().isPresent();
+    }
+
+    /**
      * Performs an action on each element of this stream.
      *
      * <p>This is a terminal operation.</p>

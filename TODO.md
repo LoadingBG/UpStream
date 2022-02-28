@@ -194,7 +194,7 @@
 + allMatch(Predicate<T>)
 + anyMatch(Predicate<T>)
 + noneMatch(Predicate<T>)
-  isEmpty()
++ isEmpty()
   isSorted()
   isSortedByKey(Function<T, Comparable>)
   isSortedByKeyUsing(Function<T, R>, Comparator<R>)

@@ -191,7 +191,7 @@
 
 ```diff
 + allMatch(Predicate<T>)
-  anyMatch(Predicate<T>)
++ anyMatch(Predicate<T>)
   noneMatch(Predicate<T>)
   isEmpty()
   isSorted()

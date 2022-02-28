@@ -740,6 +740,25 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Checks if any of the elements in this stream
+     * passes the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether any element passes the predicate.
+     */
+    public boolean anyMatch(final Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate);
+        for (Optional<T> curr = next(); curr.isPresent(); curr = next()) {
+            if (predicate.test(curr.get())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Performs an action on each element of this stream.
      *
      * <p>This is a terminal operation.</p>

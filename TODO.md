@@ -192,7 +192,7 @@
 ```diff
 + allMatch(Predicate<T>)
 + anyMatch(Predicate<T>)
-  noneMatch(Predicate<T>)
++ noneMatch(Predicate<T>)
   isEmpty()
   isSorted()
   isSortedByKey(Function<T, Comparable>)

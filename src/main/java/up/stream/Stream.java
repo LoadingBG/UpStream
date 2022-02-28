@@ -759,6 +759,19 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Checks if none of the elements in this stream
+     * passes the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether no element passes the predicate.
+     */
+    public boolean noneMatch(final Predicate<? super T> predicate) {
+        return allMatch(Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
      * Performs an action on each element of this stream.
      *
      * <p>This is a terminal operation.</p>

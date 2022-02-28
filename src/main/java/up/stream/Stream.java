@@ -730,6 +730,7 @@ public abstract class Stream<T> {
      * @return Whether all elements pass the predicate.
      */
     public boolean allMatch(final Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate);
         for (Optional<T> curr = next(); curr.isPresent(); curr = next()) {
             if (!predicate.test(curr.get())) {
                 return false;

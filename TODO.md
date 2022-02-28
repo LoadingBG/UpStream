@@ -14,12 +14,13 @@
 
 ## Possible Optimizations
 
-| Where           | What                                                 |
-|-----------------|------------------------------------------------------|
-| `OfArrayStream` | Don't copy primitive arrays                          |
-| everywhere      | Make optimised versions of methods if possible       |
-| everywhere      | Check for infinite streams where they aren't allowed |
-| `DropStream`    | Make a protected method for dropping                 |
+| Where              | What                                                     |
+|--------------------|----------------------------------------------------------|
+| `OfArrayStream`    | Don't copy primitive arrays                              |
+| everywhere         | Make optimised versions of methods if possible           |
+| everywhere         | Check for infinite streams where they aren't allowed     |
+| `DropStream`       | Make a protected method for dropping                     |
+| `Stream#noneMatch` | Implement from scratch instead of negating the predicate |
 
 ## Creators
 

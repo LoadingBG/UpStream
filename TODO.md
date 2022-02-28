@@ -190,7 +190,7 @@
 ### Predicates
 
 ```diff
-allMatch(Predicate<T>)
++ allMatch(Predicate<T>)
   anyMatch(Predicate<T>)
   noneMatch(Predicate<T>)
   isEmpty()

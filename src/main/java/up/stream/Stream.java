@@ -721,6 +721,68 @@ public abstract class Stream<T> {
     // Terminal Operations
 
     /**
+     * Checks if all elements in this stream pass
+     * the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether all elements pass the predicate.
+     */
+    public boolean allMatch(final Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate);
+        for (Optional<T> curr = next(); curr.isPresent(); curr = next()) {
+            if (!predicate.test(curr.get())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if any of the elements in this stream
+     * passes the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether any element passes the predicate.
+     */
+    public boolean anyMatch(final Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate);
+        for (Optional<T> curr = next(); curr.isPresent(); curr = next()) {
+            if (predicate.test(curr.get())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if none of the elements in this stream
+     * passes the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether no element passes the predicate.
+     */
+    public boolean noneMatch(final Predicate<? super T> predicate) {
+        return allMatch(Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
+     * Checks if this stream contains no elements.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @return Whether this stream is empty.
+     */
+    public boolean isEmpty() {
+        return (sizeBounds().lower() == 0 && sizeBounds().upper() == 0) || !next().isPresent();
+    }
+
+    /**
      * Performs an action on each element of this stream.
      *
      * <p>This is a terminal operation.</p>

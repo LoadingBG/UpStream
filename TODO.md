@@ -21,6 +21,7 @@
 | everywhere         | Check for infinite streams where they aren't allowed     |
 | `DropStream`       | Make a protected method for dropping                     |
 | `Stream#noneMatch` | Implement from scratch instead of negating the predicate |
+| everywhere         | Add characteristics to be able to skip some operations   |
 
 ## Creators
 

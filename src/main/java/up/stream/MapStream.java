@@ -18,11 +18,6 @@ final class MapStream<T, R> extends Stream<R> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return prev.sizeBounds();
-    }
-
-    @Override
     protected Stream<R> copy() {
         return new MapStream<>(prev.copy(), mapper);
     }

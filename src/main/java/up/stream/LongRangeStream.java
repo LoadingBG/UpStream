@@ -35,11 +35,6 @@ final class LongRangeStream extends Stream<Long> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Long> copy() {
         return new LongRangeStream(start, end, step);
     }

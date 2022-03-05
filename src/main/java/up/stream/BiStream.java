@@ -27,21 +27,6 @@ public abstract class BiStream<T, U> {
     protected abstract Optional<Pair<T, U>> next();
 
     /**
-     * The size bounds of this stream.
-     *
-     * <p>The lower bound is the minimum number
-     * of elements this stream can have.
-     * The upper bound is the maximum number
-     * of elements this stream can have.</p>
-     *
-     * <p>If this stream might be infinite, the
-     * upper bound should be an empty {@link Optional}.</p>
-     *
-     * @return The size bounds of this stream.
-     */
-    protected abstract SizeBounds sizeBounds();
-
-    /**
      * Creates a copy of this stream with the
      * initial values this stream had.
      *

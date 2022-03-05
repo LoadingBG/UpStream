@@ -27,11 +27,6 @@ final class DropUntilStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(0, prev.sizeBounds().upper());
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new DropUntilStream<>(prev.copy(), filter);
     }

@@ -16,11 +16,6 @@ final class GenerateStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.infinite();
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new GenerateStream<>(supplier);
     }

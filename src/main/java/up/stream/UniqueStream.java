@@ -24,11 +24,6 @@ final class UniqueStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(0, prev.sizeBounds().upper());
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new UniqueStream<>(prev.copy());
     }

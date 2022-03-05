@@ -22,11 +22,6 @@ final class RejectStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(0, prev.sizeBounds().upper());
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new RejectStream<>(prev.copy(), filter);
     }

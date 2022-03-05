@@ -35,11 +35,6 @@ final class ShortRangeStream extends Stream<Short> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Short> copy() {
         return new ShortRangeStream(start, end, step);
     }

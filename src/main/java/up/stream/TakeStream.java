@@ -23,11 +23,6 @@ final class TakeStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(prev.sizeBounds().lower(), Math.min(prev.sizeBounds().upper(), elemsToTake));
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new TakeStream<>(prev.copy(), elemsToTake);
     }

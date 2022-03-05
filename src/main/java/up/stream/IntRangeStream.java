@@ -35,11 +35,6 @@ final class IntRangeStream extends Stream<Integer> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Integer> copy() {
         return new IntRangeStream(start, end, step);
     }

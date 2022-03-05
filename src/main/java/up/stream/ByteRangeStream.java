@@ -35,11 +35,6 @@ final class ByteRangeStream extends Stream<Byte> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Byte> copy() {
         return new ByteRangeStream(start, end, step);
     }

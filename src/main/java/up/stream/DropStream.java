@@ -25,21 +25,6 @@ final class DropStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        long prevLower = prev.sizeBounds().lower();
-        long prevUpper = prev.sizeBounds().upper();
-        if (prevLower != -1) {
-            prevLower -= elemsToDrop;
-            prevLower = prevLower < 0 ? 0 : prevLower;
-        }
-        if (prevUpper != -1) {
-            prevUpper -= elemsToDrop;
-            prevUpper = prevUpper < 0 ? 0 : prevUpper;
-        }
-        return new SizeBounds(prevLower, prevUpper);
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new DropStream<>(prev.copy(), elemsToDrop);
     }

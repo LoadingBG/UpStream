@@ -91,11 +91,6 @@ final class OfArrayStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized(len);
-    }
-
-    @Override
     protected Stream<T> copy() {
         return new OfArrayStream<>(source);
     }

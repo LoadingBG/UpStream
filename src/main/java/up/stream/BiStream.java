@@ -77,6 +77,6 @@ public abstract class BiStream<T, U> {
      * @throws NullPointerException if the mapper is {@code null}.
      */
     public <R> Stream<R> map(final BiFunction<? super T, ? super U, ? extends R> mapper) {
-        return new BiStreamMap(this, Objects.requireNonNull(mapper));
+        return new BiStreamMap<>(this, Objects.requireNonNull(mapper));
     }
 }

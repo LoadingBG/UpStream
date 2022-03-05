@@ -173,4 +173,18 @@ public abstract class BiStream<T, U> {
     public BiStream<T, U> dropWhile(final BiPredicate<? super T, ? super U> predicate) {
         return dropUntil(Objects.requireNonNull(predicate).negate());
     }
+
+    /**
+     * Takes the first {@code count} pairs of elements
+     * from this stream and discards the rest.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param count The number of pairs to take.
+     * @return A stream with the first {@code count}
+     * pairs of elements from this stream.
+     */
+    public BiStream<T, U> take(final long count) {
+        return map(Pair::new).take(count).biMap(Function.identity());
+    }
 }

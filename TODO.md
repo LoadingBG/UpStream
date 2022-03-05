@@ -24,6 +24,7 @@
 | everywhere         | Add characteristics to be able to skip some operations   |
 | `BiStream#unique`  | Make a specialized stream for this operation             |
 | `BiStream#drop`    | Make a specialized stream for this operation             |
+| `BiStream#take`    | Make a specialized stream for this operation             |
 
 ## Creators
 

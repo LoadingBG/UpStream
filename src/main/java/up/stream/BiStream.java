@@ -138,7 +138,7 @@ public abstract class BiStream<T, U> {
 
     /**
      * Drops pairs of elements from the beginning of
-     * this stream until an element which passes the
+     * this stream until a pair which passes the
      * predicate is found.
      *
      * Even if a pair which fails the predicate is
@@ -157,7 +157,7 @@ public abstract class BiStream<T, U> {
 
     /**
      * Drops pairs of elements from the beginning of
-     * this stream until an element which fails the
+     * this stream until a pair which fails the
      * predicate is found.
      *
      * Even if a pair which passes the predicate
@@ -186,5 +186,35 @@ public abstract class BiStream<T, U> {
      */
     public BiStream<T, U> take(final long count) {
         return map(Pair::new).take(count).biMap(Function.identity());
+    }
+
+    /**
+     * Takes pairs of elements from this stream until a
+     * pair which passes the predicate is found.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * pairs of elements which fail the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public BiStream<T, U> takeUntil(final BiPredicate<? super T, ? super U> predicate) {
+        return takeWhile(Objects.requireNonNull(predicate).negate());
+    }
+
+    /**
+     * Takes pairs of elements from this stream
+     * while they pass the predicate.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * pairs of elements which pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public BiStream<T, U> takeWhile(final BiPredicate<? super T, ? super U> predicate) {
+        return new BiStreamTakeWhile<>(this, Objects.requireNonNull(predicate));
     }
 }

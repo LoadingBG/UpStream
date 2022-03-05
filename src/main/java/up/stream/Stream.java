@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import up.stream.util.Pair;
+
 /**
  * A possibly infinite sequence of lazily evaluated elements
  * supporting operations which act on the elements.
@@ -499,6 +501,29 @@ public abstract class Stream<T> {
 
 
     // Intermediate Operations
+
+    /**
+     * Applies the given mapper function to each element
+     * and returns a new {@linkplain BiStream bistream} out
+     * of the results of the function.
+     *
+     * <p>The result will be a stream with specialized
+     * methods for working with pairs of values.</p>
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param mapper The function to apply.
+     * @param <R> The type of the first element in the new pair.
+     * @param <S> The type of the second element in the new pair.
+     * @return A stream with each element from this one mapped
+     * according to the mapper function.
+     * @throws NullPointerException If the mapper is {@code null}.
+     *
+     * @see BiStream
+     */
+    public <R, S> BiStream<R, S> biMap(final Function<? super T, ? extends Pair<R, S>> mapper) {
+        return new BiMapBiStream<>(this, Objects.requireNonNull(mapper));
+    }
 
     /**
      * Applies the given mapper function to each element and

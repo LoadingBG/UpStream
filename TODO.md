@@ -85,11 +85,11 @@
 ### Maps
 
 ```diff
++ biMap(Function<T, Pair<R, S>>)
   flatMap(Function<T, Stream<R>>) // + other collections ?
 + map(Function<T, R>)
   mapIndexed(BiFunction<Long, T, R>)
   mapMulti(BiConsumer<T, Consumer<T>>)
-- bimap(Function<T, Pair<U, V>>)
 - castTo(Class<R>)
 - mapEveryNth(long, Function<T, R>)
 - nullFilteredMap(Function<T, R>)

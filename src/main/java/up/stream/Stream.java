@@ -493,6 +493,7 @@ public abstract class Stream<T> {
      * @param generator The generator of values.
      * @param <T> The type of the elements.
      * @return A stream with the generated values.
+     * @throws NullPointerException If the generator is {@code null}.
      */
     public static <T> Stream<T> generate(final Supplier<? extends T> generator) {
         return new StreamGenerate<>(Objects.requireNonNull(generator));
@@ -571,6 +572,7 @@ public abstract class Stream<T> {
      * @param filter The predicate to test against.
      * @return A stream containing all elements which
      * passed the predicate.
+     * @throws NullPointerException If the filter is {@code null}.
      */
     public Stream<T> select(final Predicate<? super T> filter) {
         return new StreamReject<>(this, Objects.requireNonNull(filter).negate());
@@ -583,6 +585,7 @@ public abstract class Stream<T> {
      *
      * @param action The action to apply.
      * @return An unaltered stream.
+     * @throws NullPointerException If the action is {@code null}.
      */
     public Stream<T> inspect(final Consumer<? super T> action) {
         Objects.requireNonNull(action);
@@ -631,6 +634,7 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements failing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropUntil(final Predicate<? super T> predicate) {
         return new StreamDropUntil<>(this, Objects.requireNonNull(predicate));
@@ -649,6 +653,7 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements passing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropWhile(final Predicate<? super T> predicate) {
         return new StreamDropUntil<>(this, Objects.requireNonNull(predicate).negate());
@@ -677,6 +682,7 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements which fail the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeUntil(final Predicate<? super T> predicate) {
         return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate));
@@ -691,6 +697,7 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements which pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeWhile(final Predicate<? super T> predicate) {
         return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate).negate());
@@ -738,6 +745,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether all elements pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean allMatch(final Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
@@ -757,6 +765,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether any element passes the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean anyMatch(final Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
@@ -776,6 +785,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether no element passes the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean noneMatch(final Predicate<? super T> predicate) {
         return allMatch(Objects.requireNonNull(predicate).negate());

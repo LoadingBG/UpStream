@@ -105,7 +105,7 @@ public abstract class Stream<T> {
      * @return An empty stream.
      */
     public static <T> Stream<T> empty() {
-        return new EmptyStream<>();
+        return new StreamEmpty<>();
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class Stream<T> {
      */
     @SafeVarargs
     public static <T> Stream<T> of(final T... values) {
-        return new OfArrayStream<>(values);
+        return new StreamOfArray<>(values);
     }
 
     /**
@@ -155,7 +155,7 @@ public abstract class Stream<T> {
      * @see #ofCharArray(char[]) ofCharArray
      */
     public static <T> Stream<T> ofArray(final T[] objects) {
-        return new OfArrayStream<>(Objects.requireNonNull(objects));
+        return new StreamOfArray<>(Objects.requireNonNull(objects));
     }
 
     /**
@@ -166,7 +166,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Boolean> ofBooleanArray(final boolean[] booleans) {
-        return OfArrayStream.of(Objects.requireNonNull(booleans));
+        return StreamOfArray.of(Objects.requireNonNull(booleans));
     }
 
     /**
@@ -177,7 +177,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Byte> ofByteArray(final byte[] bytes) {
-        return OfArrayStream.of(Objects.requireNonNull(bytes));
+        return StreamOfArray.of(Objects.requireNonNull(bytes));
     }
 
     /**
@@ -188,7 +188,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Short> ofShortArray(final short[] shorts) {
-        return OfArrayStream.of(Objects.requireNonNull(shorts));
+        return StreamOfArray.of(Objects.requireNonNull(shorts));
     }
 
     /**
@@ -199,7 +199,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Integer> ofIntArray(final int[] ints) {
-        return OfArrayStream.of(Objects.requireNonNull(ints));
+        return StreamOfArray.of(Objects.requireNonNull(ints));
     }
 
     /**
@@ -210,7 +210,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Long> ofLongArray(final long[] longs) {
-        return OfArrayStream.of(Objects.requireNonNull(longs));
+        return StreamOfArray.of(Objects.requireNonNull(longs));
     }
 
     /**
@@ -221,7 +221,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Float> ofFloatArray(final float[] floats) {
-        return OfArrayStream.of(Objects.requireNonNull(floats));
+        return StreamOfArray.of(Objects.requireNonNull(floats));
     }
 
     /**
@@ -232,7 +232,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Double> ofDoubleArray(final double[] doubles) {
-        return OfArrayStream.of(Objects.requireNonNull(doubles));
+        return StreamOfArray.of(Objects.requireNonNull(doubles));
     }
 
     /**
@@ -243,7 +243,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Character> ofCharArray(final char[] chars) {
-        return OfArrayStream.of(Objects.requireNonNull(chars));
+        return StreamOfArray.of(Objects.requireNonNull(chars));
     }
 
     /**
@@ -303,7 +303,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Byte> byteRange(final byte startInclusive, final byte endExclusive, final byte increment) {
-        return new ByteRangeStream(startInclusive, endExclusive, increment);
+        return new StreamByteRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -363,7 +363,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Short> shortRange(final short startInclusive, final short endExclusive, final short increment) {
-        return new ShortRangeStream(startInclusive, endExclusive, increment);
+        return new StreamShortRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -423,7 +423,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Integer> intRange(final int startInclusive, final int endExclusive, final int increment) {
-        return new IntRangeStream(startInclusive, endExclusive, increment);
+        return new StreamIntRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -483,7 +483,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Long> longRange(final long startInclusive, final long endExclusive, final long increment) {
-        return new LongRangeStream(startInclusive, endExclusive, increment);
+        return new StreamLongRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -495,7 +495,7 @@ public abstract class Stream<T> {
      * @return A stream with the generated values.
      */
     public static <T> Stream<T> generate(final Supplier<? extends T> generator) {
-        return new GenerateStream<>(Objects.requireNonNull(generator));
+        return new StreamGenerate<>(Objects.requireNonNull(generator));
     }
 
 
@@ -522,7 +522,7 @@ public abstract class Stream<T> {
      * @see BiStream
      */
     public <R, S> BiStream<R, S> biMap(final Function<? super T, ? extends Pair<R, S>> mapper) {
-        return new BiMapBiStream<>(this, Objects.requireNonNull(mapper));
+        return new StreamBiMap<>(this, Objects.requireNonNull(mapper));
     }
 
     /**
@@ -538,7 +538,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException if the mapper is {@code null}.
      */
     public <R> Stream<R> map(final Function<? super T, ? extends R> mapper) {
-        return new MapStream<>(this, Objects.requireNonNull(mapper));
+        return new StreamMap<>(this, Objects.requireNonNull(mapper));
     }
 
     /**
@@ -556,7 +556,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the filter is {@code null}.
      */
     public Stream<T> reject(final Predicate<? super T> filter) {
-        return new RejectStream<>(this, Objects.requireNonNull(filter));
+        return new StreamReject<>(this, Objects.requireNonNull(filter));
     }
 
     /**
@@ -573,7 +573,7 @@ public abstract class Stream<T> {
      * passed the predicate.
      */
     public Stream<T> select(final Predicate<? super T> filter) {
-        return new RejectStream<>(this, Objects.requireNonNull(filter).negate());
+        return new StreamReject<>(this, Objects.requireNonNull(filter).negate());
     }
 
     /**
@@ -600,7 +600,7 @@ public abstract class Stream<T> {
      * @return A stream containing only unique values.
      */
     public Stream<T> unique() {
-        return new UniqueStream<>(this);
+        return new StreamUnique<>(this);
     }
 
     /**
@@ -615,7 +615,7 @@ public abstract class Stream<T> {
      * of elements specified.
      */
     public Stream<T> drop(final long count) {
-        return new DropStream<>(this, count);
+        return new StreamDrop<>(this, count);
     }
 
     /**
@@ -633,7 +633,7 @@ public abstract class Stream<T> {
      * elements failing the predicate dropped.
      */
     public Stream<T> dropUntil(final Predicate<? super T> predicate) {
-        return new DropUntilStream<>(this, Objects.requireNonNull(predicate));
+        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -651,7 +651,7 @@ public abstract class Stream<T> {
      * elements passing the predicate dropped.
      */
     public Stream<T> dropWhile(final Predicate<? super T> predicate) {
-        return new DropUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -665,7 +665,7 @@ public abstract class Stream<T> {
      * elements from this stream.
      */
     public Stream<T> take(final long count) {
-        return new TakeStream<>(this, count);
+        return new StreamTake<>(this, count);
     }
 
     /**
@@ -679,7 +679,7 @@ public abstract class Stream<T> {
      * elements which fail the predicate.
      */
     public Stream<T> takeUntil(final Predicate<? super T> predicate) {
-        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate));
+        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -693,7 +693,7 @@ public abstract class Stream<T> {
      * elements which pass the predicate.
      */
     public Stream<T> takeWhile(final Predicate<? super T> predicate) {
-        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -704,7 +704,7 @@ public abstract class Stream<T> {
      * @return A stream with this stream's elements cycled.
      */
     public Stream<T> cycle() {
-        return new CycleStream<>(this, -1);
+        return new StreamCycle<>(this, -1);
     }
 
     /**
@@ -723,7 +723,7 @@ public abstract class Stream<T> {
         if (times < 1) {
             return empty();
         }
-        return new CycleStream<>(this, times);
+        return new StreamCycle<>(this, times);
     }
 
 

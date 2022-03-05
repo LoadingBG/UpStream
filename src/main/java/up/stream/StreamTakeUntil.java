@@ -3,12 +3,12 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-final class TakeUntilStream<T> extends Stream<T> {
+final class StreamTakeUntil<T> extends Stream<T> {
     private final Stream<T> prev;
     private final Predicate<? super T> filter;
     private boolean isTaking;
 
-    TakeUntilStream(final Stream<T> prev, final Predicate<? super T> filter) {
+    StreamTakeUntil(final Stream<T> prev, final Predicate<? super T> filter) {
         this.prev = prev;
         this.filter = filter;
         isTaking = false;
@@ -29,6 +29,6 @@ final class TakeUntilStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new TakeUntilStream<>(prev.copy(), filter);
+        return new StreamTakeUntil<>(prev.copy(), filter);
     }
 }

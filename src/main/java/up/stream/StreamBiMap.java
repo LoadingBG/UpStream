@@ -5,11 +5,11 @@ import java.util.function.Function;
 
 import up.stream.util.Pair;
 
-final class BiMapBiStream<T, R, S> extends BiStream<R, S> {
+final class StreamBiMap<T, R, S> extends BiStream<R, S> {
     private final Stream<T> prev;
     private final Function<? super T, ? extends Pair<R, S>> mapper;
 
-    BiMapBiStream(final Stream<T> prev, final Function<? super T, ? extends Pair<R, S>> mapper) {
+    StreamBiMap(final Stream<T> prev, final Function<? super T, ? extends Pair<R, S>> mapper) {
         this.prev = prev;
         this.mapper = mapper;
     }
@@ -21,6 +21,6 @@ final class BiMapBiStream<T, R, S> extends BiStream<R, S> {
 
     @Override
     protected BiStream<R, S> copy() {
-        return new BiMapBiStream<>(prev.copy(), mapper);
+        return new StreamBiMap<>(prev.copy(), mapper);
     }
 }

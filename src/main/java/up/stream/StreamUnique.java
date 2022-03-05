@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-final class UniqueStream<T> extends Stream<T> {
+final class StreamUnique<T> extends Stream<T> {
     private final Stream<T> prev;
     private final Set<T> uniques;
 
-    UniqueStream(final Stream<T> prev) {
+    StreamUnique(final Stream<T> prev) {
         this.prev = prev;
         uniques = new HashSet<>();
     }
@@ -25,6 +25,6 @@ final class UniqueStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new UniqueStream<>(prev.copy());
+        return new StreamUnique<>(prev.copy());
     }
 }

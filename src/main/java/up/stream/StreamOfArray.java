@@ -2,87 +2,87 @@ package up.stream;
 
 import java.util.Optional;
 
-final class OfArrayStream<T> extends Stream<T> {
+final class StreamOfArray<T> extends Stream<T> {
     private final T[] source;
     private final int len;
     private int currIndex;
 
-    OfArrayStream(final T[] source) {
+    StreamOfArray(final T[] source) {
         this.source = source;
         len = source.length;
         currIndex = 0;
     }
 
-    static OfArrayStream<Boolean> of(final boolean[] source) {
+    static StreamOfArray<Boolean> of(final boolean[] source) {
         final int len = source.length;
         final Boolean[] res = new Boolean[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Byte> of(final byte[] source) {
+    static StreamOfArray<Byte> of(final byte[] source) {
         final int len = source.length;
         final Byte[] res = new Byte[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Short> of(final short[] source) {
+    static StreamOfArray<Short> of(final short[] source) {
         final int len = source.length;
         final Short[] res = new Short[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Integer> of(final int[] source) {
+    static StreamOfArray<Integer> of(final int[] source) {
         final int len = source.length;
         final Integer[] res = new Integer[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Long> of(final long[] source) {
+    static StreamOfArray<Long> of(final long[] source) {
         final int len = source.length;
         final Long[] res = new Long[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Float> of(final float[] source) {
+    static StreamOfArray<Float> of(final float[] source) {
         final int len = source.length;
         final Float[] res = new Float[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Double> of(final double[] source) {
+    static StreamOfArray<Double> of(final double[] source) {
         final int len = source.length;
         final Double[] res = new Double[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
-    static OfArrayStream<Character> of(final char[] source) {
+    static StreamOfArray<Character> of(final char[] source) {
         final int len = source.length;
         final Character[] res = new Character[len];
         for (int i = 0; i < len; ++i) {
             res[i] = source[i];
         }
-        return new OfArrayStream<>(res);
+        return new StreamOfArray<>(res);
     }
 
     @Override
@@ -92,6 +92,6 @@ final class OfArrayStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new OfArrayStream<>(source);
+        return new StreamOfArray<>(source);
     }
 }

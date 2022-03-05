@@ -3,10 +3,10 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-final class GenerateStream<T> extends Stream<T> {
+final class StreamGenerate<T> extends Stream<T> {
     private final Supplier<? extends T> supplier;
 
-    GenerateStream(final Supplier<? extends T> supplier) {
+    StreamGenerate(final Supplier<? extends T> supplier) {
         this.supplier = supplier;
     }
 
@@ -17,6 +17,6 @@ final class GenerateStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new GenerateStream<>(supplier);
+        return new StreamGenerate<>(supplier);
     }
 }

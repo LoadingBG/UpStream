@@ -2,7 +2,7 @@ package up.stream;
 
 import java.util.Optional;
 
-final class EmptyStream<T> extends Stream<T> {
+final class StreamEmpty<T> extends Stream<T> {
     @Override
     protected Optional<T> next() {
         return Optional.empty();
@@ -10,6 +10,6 @@ final class EmptyStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new EmptyStream<>();
+        return new StreamEmpty<>();
     }
 }

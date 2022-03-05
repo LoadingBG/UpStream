@@ -2,12 +2,12 @@ package up.stream;
 
 import java.util.Optional;
 
-final class DropStream<T> extends Stream<T> {
+final class StreamDrop<T> extends Stream<T> {
     private final Stream<T> prev;
     private final long elemsToDrop;
     private boolean hasDropped;
 
-    DropStream(final Stream<T> prev, final long elemsToDrop) {
+    StreamDrop(final Stream<T> prev, final long elemsToDrop) {
         this.prev = prev;
         this.elemsToDrop = elemsToDrop;
         hasDropped = false;
@@ -26,6 +26,6 @@ final class DropStream<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new DropStream<>(prev.copy(), elemsToDrop);
+        return new StreamDrop<>(prev.copy(), elemsToDrop);
     }
 }

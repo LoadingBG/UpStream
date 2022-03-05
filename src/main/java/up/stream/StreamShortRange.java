@@ -2,14 +2,14 @@ package up.stream;
 
 import java.util.Optional;
 
-final class LongRangeStream extends Stream<Long> {
-    private final long start;
-    private final long end;
-    private final long step;
-    private long curr;
+final class StreamShortRange extends Stream<Short> {
+    private final short start;
+    private final short end;
+    private final short step;
+    private short curr;
     private boolean hasWrapped;
 
-    LongRangeStream(final long start, final long end, final long step) {
+    StreamShortRange(final short start, final short end, final short step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -18,12 +18,12 @@ final class LongRangeStream extends Stream<Long> {
     }
 
     @Override
-    protected Optional<Long> next() {
+    protected Optional<Short> next() {
         if (hasWrapped || curr >= end) {
             return Optional.empty();
         }
 
-        final Optional<Long> res = Optional.of(curr);
+        final Optional<Short> res = Optional.of(curr);
 
         final boolean wasPositive = curr > 0;
         curr += step;
@@ -35,7 +35,7 @@ final class LongRangeStream extends Stream<Long> {
     }
 
     @Override
-    protected Stream<Long> copy() {
-        return new LongRangeStream(start, end, step);
+    protected Stream<Short> copy() {
+        return new StreamShortRange(start, end, step);
     }
 }

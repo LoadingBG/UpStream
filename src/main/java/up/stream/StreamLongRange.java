@@ -2,14 +2,14 @@ package up.stream;
 
 import java.util.Optional;
 
-final class ByteRangeStream extends Stream<Byte> {
-    private final byte start;
-    private final byte end;
-    private final byte step;
-    private byte curr;
+final class StreamLongRange extends Stream<Long> {
+    private final long start;
+    private final long end;
+    private final long step;
+    private long curr;
     private boolean hasWrapped;
 
-    ByteRangeStream(final byte start, final byte end, final byte step) {
+    StreamLongRange(final long start, final long end, final long step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -18,12 +18,12 @@ final class ByteRangeStream extends Stream<Byte> {
     }
 
     @Override
-    protected Optional<Byte> next() {
+    protected Optional<Long> next() {
         if (hasWrapped || curr >= end) {
             return Optional.empty();
         }
 
-        final Optional<Byte> res = Optional.of(curr);
+        final Optional<Long> res = Optional.of(curr);
 
         final boolean wasPositive = curr > 0;
         curr += step;
@@ -35,7 +35,7 @@ final class ByteRangeStream extends Stream<Byte> {
     }
 
     @Override
-    protected Stream<Byte> copy() {
-        return new ByteRangeStream(start, end, step);
+    protected Stream<Long> copy() {
+        return new StreamLongRange(start, end, step);
     }
 }

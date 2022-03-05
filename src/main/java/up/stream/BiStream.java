@@ -121,4 +121,18 @@ public abstract class BiStream<T, U> {
     public BiStream<T, U> unique() {
         return map(Pair::new).unique().biMap(Function.identity());
     }
+
+    /**
+     * Drops the specified number of pairs of elements
+     * from the beginning of this stream.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param count The number of pairs of elements to drop.
+     * @return A stream without the first number
+     * of pairs of elements specified.
+     */
+    public BiStream<T, U> drop(final long count) {
+        return map(Pair::new).drop(count).biMap(Function.identity());
+    }
 }

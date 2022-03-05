@@ -589,8 +589,7 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param count The number of elements
-     *                    to drop.
+     * @param count The number of elements to drop.
      * @return A stream without the first number
      * of elements specified.
      */

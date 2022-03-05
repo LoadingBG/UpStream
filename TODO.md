@@ -23,6 +23,7 @@
 | `Stream#noneMatch` | Implement from scratch instead of negating the predicate |
 | everywhere         | Add characteristics to be able to skip some operations   |
 | `BiStream#unique`  | Make a specialized stream for this operation             |
+| `BiStream#drop`    | Make a specialized stream for this operation             |
 
 ## Creators
 

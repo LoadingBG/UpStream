@@ -3,6 +3,7 @@ package up.stream;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 import up.stream.util.Pair;
 
@@ -78,5 +79,40 @@ public abstract class BiStream<T, U> {
      */
     public <R> Stream<R> map(final BiFunction<? super T, ? super U, ? extends R> mapper) {
         return new BiStreamMap<>(this, Objects.requireNonNull(mapper));
+    }
+
+    /**
+     * Filters this stream keeping all pairs of
+     * elements which fail the given predicate.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @implNote If this stream is infinite, this operation
+     * will result in an infinite loop.
+     *
+     * @param filter The predicate to test against.
+     * @return A stream containing all pairs of elements
+     * which failed the test.
+     * @throws NullPointerException If the filter is {@code null}.
+     */
+    public BiStream<T, U> reject(final BiPredicate<? super T, ? super U> filter) {
+        return select(Objects.requireNonNull(filter).negate());
+    }
+
+    /**
+     * Filters this stream keeping all pairs of elements
+     * which pass the given predicate.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @implNote If this stream is infinite, this operation
+     * will result in an infinite loop.
+     *
+     * @param filter The predicate to test against.
+     * @return A stream containing all pairs of elements
+     * which passed the predicate.
+     */
+    public BiStream<T, U> select(final BiPredicate<? super T, ? super U> filter) {
+        return new BiStreamSelect<>(this, Objects.requireNonNull(filter));
     }
 }

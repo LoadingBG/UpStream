@@ -573,23 +573,6 @@ public abstract class Stream<T> {
     }
 
     /**
-     * Applies an action to each element without altering it.
-     *
-     * <p>This is an intermediate operation.</p>
-     *
-     * @param action The action to apply.
-     * @return An unaltered stream.
-     * @throws NullPointerException If the action is {@code null}.
-     */
-    public Stream<T> inspect(final Consumer<? super T> action) {
-        Objects.requireNonNull(action);
-        return map(value -> {
-            action.accept(value);
-            return value;
-        });
-    }
-
-    /**
      * Filters this stream keeping only the unique values.
      *
      * <p>This is an intermediate operation.</p>
@@ -725,6 +708,23 @@ public abstract class Stream<T> {
             return empty();
         }
         return new StreamCycle<>(this, times);
+    }
+
+    /**
+     * Applies an action to each element without altering it.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param action The action to apply.
+     * @return An unaltered stream.
+     * @throws NullPointerException If the action is {@code null}.
+     */
+    public Stream<T> inspect(final Consumer<? super T> action) {
+        Objects.requireNonNull(action);
+        return map(value -> {
+            action.accept(value);
+            return value;
+        });
     }
 
 

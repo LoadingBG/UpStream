@@ -1,5 +1,6 @@
 package up.stream;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -57,6 +58,6 @@ public abstract class BiStream<T, U> {
      * @throws NullPointerException If the mapper is {@code null}.
      */
     public <R, S> BiStream<R, S> biMap(final BiFunction<? super T, ? super U, ? extends Pair<R, S>> mapper) {
-        return new BiStreamBiMap<>(this, mapper);
+        return new BiStreamBiMap<>(this, Objects.requireNonNull(mapper));
     }
 }

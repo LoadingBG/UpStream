@@ -87,9 +87,6 @@ public abstract class BiStream<T, U> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
-     *
      * @param filter The predicate to test against.
      * @return A stream containing all pairs of elements
      * which failed the test.
@@ -104,9 +101,6 @@ public abstract class BiStream<T, U> {
      * which pass the given predicate.
      *
      * <p>This is an intermediate operation.</p>
-     *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
      *
      * @param filter The predicate to test against.
      * @return A stream containing all pairs of elements

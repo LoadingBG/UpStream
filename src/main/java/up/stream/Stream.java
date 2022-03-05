@@ -548,9 +548,6 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
-     *
      * @param filter The predicate to test against.
      * @return A stream containing all elements which failed
      * the test.
@@ -565,9 +562,6 @@ public abstract class Stream<T> {
      * the given predicate.
      *
      * <p>This is an intermediate operation.</p>
-     *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
      *
      * @param filter The predicate to test against.
      * @return A stream containing all elements which

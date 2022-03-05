@@ -60,4 +60,23 @@ public abstract class BiStream<T, U> {
     public <R, S> BiStream<R, S> biMap(final BiFunction<? super T, ? super U, ? extends Pair<R, S>> mapper) {
         return new BiStreamBiMap<>(this, Objects.requireNonNull(mapper));
     }
+
+    /**
+     * Applies the given mapper function to each pair of elements and
+     * returns a new stream out of the results of the function.
+     *
+     * <p>The result will be a stream with specialized methods
+     * for working with single values.</p>
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param mapper The function to apply.
+     * @param <R> The type of the new elements.
+     * @return A stream with each pair of elements from this one
+     * mapped according to the mapper function.
+     * @throws NullPointerException if the mapper is {@code null}.
+     */
+    public <R> Stream<R> map(final BiFunction<? super T, ? super U, ? extends R> mapper) {
+        return new BiStreamMap(this, Objects.requireNonNull(mapper));
+    }
 }

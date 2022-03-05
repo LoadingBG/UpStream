@@ -11,7 +11,7 @@ final class StreamTakeUntil<T> extends Stream<T> {
     StreamTakeUntil(final Stream<T> prev, final Predicate<? super T> filter) {
         this.prev = prev;
         this.filter = filter;
-        isTaking = false;
+        isTaking = true;
     }
 
     @Override

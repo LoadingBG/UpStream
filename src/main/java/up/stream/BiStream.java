@@ -135,4 +135,42 @@ public abstract class BiStream<T, U> {
     public BiStream<T, U> drop(final long count) {
         return map(Pair::new).drop(count).biMap(Function.identity());
     }
+
+    /**
+     * Drops pairs of elements from the beginning of
+     * this stream until an element which passes the
+     * predicate is found.
+     *
+     * Even if a pair which fails the predicate is
+     * found later, it won't be dropped.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * pairs of elements failing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public BiStream<T, U> dropUntil(final BiPredicate<? super T, ? super U> predicate) {
+        return new BiStreamDropUntil<>(this, Objects.requireNonNull(predicate));
+    }
+
+    /**
+     * Drops pairs of elements from the beginning of
+     * this stream until an element which fails the
+     * predicate is found.
+     *
+     * Even if a pair which passes the predicate
+     * is found later, it won't be dropped.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param predicate The predicate to test against.
+     * @return A stream with the first sequence of
+     * pairs of elements passing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public BiStream<T, U> dropWhile(final BiPredicate<? super T, ? super U> predicate) {
+        return dropUntil(Objects.requireNonNull(predicate).negate());
+    }
 }

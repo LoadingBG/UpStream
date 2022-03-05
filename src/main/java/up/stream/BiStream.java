@@ -1,6 +1,7 @@
 package up.stream;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import up.stream.util.Pair;
 
@@ -33,4 +34,29 @@ public abstract class BiStream<T, U> {
      * @return A copy of this stream.
      */
     protected abstract BiStream<T, U> copy();
+
+
+
+    // Intermediate Operations
+
+    /**
+     * Applies the given mapper function to each pair of elements
+     * and returns a new {@linkplain BiStream bistream} out
+     * of the results of the function.
+     *
+     * <p>The result will be a stream with specialized
+     * methods for working with pairs of values.</p>
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param mapper The function to apply.
+     * @param <R> The type of the first element in the new pair.
+     * @param <S> The type of the second element in the new pair.
+     * @return A stream with each pair of elements from this one
+     * mapped according to the mapper function.
+     * @throws NullPointerException If the mapper is {@code null}.
+     */
+    public <R, S> BiStream<R, S> biMap(final BiFunction<? super T, ? super U, ? extends Pair<R, S>> mapper) {
+        return new BiStreamBiMap<>(this, mapper);
+    }
 }

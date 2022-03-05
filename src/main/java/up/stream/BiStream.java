@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 import up.stream.util.Pair;
 
@@ -108,5 +109,16 @@ public abstract class BiStream<T, U> {
      */
     public BiStream<T, U> select(final BiPredicate<? super T, ? super U> filter) {
         return new BiStreamSelect<>(this, Objects.requireNonNull(filter));
+    }
+
+    /**
+     * Filters this stream keeping only the unique pairs.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @return A stream containing only unique pairs.
+     */
+    public BiStream<T, U> unique() {
+        return map(Pair::new).unique().biMap(Function.identity());
     }
 }

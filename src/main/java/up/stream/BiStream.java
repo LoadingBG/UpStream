@@ -308,4 +308,18 @@ public abstract class BiStream<T, U> {
         }
         return false;
     }
+
+    /**
+     * Checks if none of the pairs of elements in this stream
+     * passes the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether no pair passes the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public boolean noneMatch(final BiPredicate<? super T, ? super U> predicate) {
+        return allMatch(Objects.requireNonNull(predicate).negate());
+    }
 }

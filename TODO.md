@@ -14,14 +14,19 @@
 
 ## Possible Optimizations
 
-| Where              | What                                                     |
-|--------------------|----------------------------------------------------------|
-| `OfArrayStream`    | Don't copy primitive arrays                              |
-| everywhere         | Make optimised versions of methods if possible           |
-| everywhere         | Check for infinite streams where they aren't allowed     |
-| `DropStream`       | Make a protected method for dropping                     |
-| `Stream#noneMatch` | Implement from scratch instead of negating the predicate |
-| everywhere         | Add characteristics to be able to skip some operations   |
+| Where                | What                                                     |
+|----------------------|----------------------------------------------------------|
+| `OfArrayStream`      | Don't copy primitive arrays                              |
+| everywhere           | Make optimised versions of methods if possible           |
+| everywhere           | Check for infinite streams where they aren't allowed     |
+| `DropStream`         | Make a protected method for dropping                     |
+| `Stream#noneMatch`   | Implement from scratch instead of negating the predicate |
+| everywhere           | Add characteristics to be able to skip some operations   |
+| `BiStream#unique`    | Make a specialized stream for this operation             |
+| `BiStream#drop`      | Make a specialized stream for this operation             |
+| `BiStream#take`      | Make a specialized stream for this operation             |
+| `BiStream#cycle`     | Make a specialized stream for this operation             |
+| `BiStream#noneMatch` | Implement from scratch instead of negating the predicate |
 
 ## Creators
 
@@ -85,11 +90,11 @@
 ### Maps
 
 ```diff
++ biMap(Function<T, Pair<R, S>>)
   flatMap(Function<T, Stream<R>>) // + other collections ?
 + map(Function<T, R>)
   mapIndexed(BiFunction<Long, T, R>)
   mapMulti(BiConsumer<T, Consumer<T>>)
-- bimap(Function<T, Pair<U, V>>)
 - castTo(Class<R>)
 - mapEveryNth(long, Function<T, R>)
 - nullFilteredMap(Function<T, R>)

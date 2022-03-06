@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import up.stream.util.Pair;
+
 /**
  * A possibly infinite sequence of lazily evaluated elements
  * supporting operations which act on the elements.
@@ -84,21 +86,6 @@ public abstract class Stream<T> {
     protected abstract Optional<T> next();
 
     /**
-     * The size bounds of this stream.
-     *
-     * <p>The lower bound is the minimum number
-     * of elements this stream can have.
-     * The upper bound is the maximum number
-     * of elements this stream can have.</p>
-     *
-     * <p>If this stream might be infinite, the
-     * upper bound should be an empty {@link Optional}.</p>
-     *
-     * @return The size bounds of this stream.
-     */
-    protected abstract SizeBounds sizeBounds();
-
-    /**
      * Creates a copy of this stream with the
      * initial values this stream had.
      *
@@ -118,7 +105,7 @@ public abstract class Stream<T> {
      * @return An empty stream.
      */
     public static <T> Stream<T> empty() {
-        return new EmptyStream<>();
+        return new StreamEmpty<>();
     }
 
     /**
@@ -137,7 +124,7 @@ public abstract class Stream<T> {
      */
     @SafeVarargs
     public static <T> Stream<T> of(final T... values) {
-        return new OfArrayStream<>(values);
+        return new StreamOfArray<>(values);
     }
 
     /**
@@ -168,7 +155,7 @@ public abstract class Stream<T> {
      * @see #ofCharArray(char[]) ofCharArray
      */
     public static <T> Stream<T> ofArray(final T[] objects) {
-        return new OfArrayStream<>(Objects.requireNonNull(objects));
+        return new StreamOfArray<>(Objects.requireNonNull(objects));
     }
 
     /**
@@ -179,7 +166,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Boolean> ofBooleanArray(final boolean[] booleans) {
-        return OfArrayStream.of(Objects.requireNonNull(booleans));
+        return StreamOfArray.of(Objects.requireNonNull(booleans));
     }
 
     /**
@@ -190,7 +177,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Byte> ofByteArray(final byte[] bytes) {
-        return OfArrayStream.of(Objects.requireNonNull(bytes));
+        return StreamOfArray.of(Objects.requireNonNull(bytes));
     }
 
     /**
@@ -201,7 +188,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Short> ofShortArray(final short[] shorts) {
-        return OfArrayStream.of(Objects.requireNonNull(shorts));
+        return StreamOfArray.of(Objects.requireNonNull(shorts));
     }
 
     /**
@@ -212,7 +199,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Integer> ofIntArray(final int[] ints) {
-        return OfArrayStream.of(Objects.requireNonNull(ints));
+        return StreamOfArray.of(Objects.requireNonNull(ints));
     }
 
     /**
@@ -223,7 +210,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Long> ofLongArray(final long[] longs) {
-        return OfArrayStream.of(Objects.requireNonNull(longs));
+        return StreamOfArray.of(Objects.requireNonNull(longs));
     }
 
     /**
@@ -234,7 +221,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Float> ofFloatArray(final float[] floats) {
-        return OfArrayStream.of(Objects.requireNonNull(floats));
+        return StreamOfArray.of(Objects.requireNonNull(floats));
     }
 
     /**
@@ -245,7 +232,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Double> ofDoubleArray(final double[] doubles) {
-        return OfArrayStream.of(Objects.requireNonNull(doubles));
+        return StreamOfArray.of(Objects.requireNonNull(doubles));
     }
 
     /**
@@ -256,7 +243,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the array is {@code null}.
      */
     public static Stream<Character> ofCharArray(final char[] chars) {
-        return OfArrayStream.of(Objects.requireNonNull(chars));
+        return StreamOfArray.of(Objects.requireNonNull(chars));
     }
 
     /**
@@ -316,7 +303,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Byte> byteRange(final byte startInclusive, final byte endExclusive, final byte increment) {
-        return new ByteRangeStream(startInclusive, endExclusive, increment);
+        return new StreamByteRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -376,7 +363,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Short> shortRange(final short startInclusive, final short endExclusive, final short increment) {
-        return new ShortRangeStream(startInclusive, endExclusive, increment);
+        return new StreamShortRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -436,7 +423,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Integer> intRange(final int startInclusive, final int endExclusive, final int increment) {
-        return new IntRangeStream(startInclusive, endExclusive, increment);
+        return new StreamIntRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -496,7 +483,7 @@ public abstract class Stream<T> {
      * @return A stream with the values in the range.
      */
     public static Stream<Long> longRange(final long startInclusive, final long endExclusive, final long increment) {
-        return new LongRangeStream(startInclusive, endExclusive, increment);
+        return new StreamLongRange(startInclusive, endExclusive, increment);
     }
 
     /**
@@ -506,14 +493,38 @@ public abstract class Stream<T> {
      * @param generator The generator of values.
      * @param <T> The type of the elements.
      * @return A stream with the generated values.
+     * @throws NullPointerException If the generator is {@code null}.
      */
     public static <T> Stream<T> generate(final Supplier<? extends T> generator) {
-        return new GenerateStream<>(Objects.requireNonNull(generator));
+        return new StreamGenerate<>(Objects.requireNonNull(generator));
     }
 
 
 
     // Intermediate Operations
+
+    /**
+     * Applies the given mapper function to each element
+     * and returns a new {@linkplain BiStream bistream} out
+     * of the results of the function.
+     *
+     * <p>The result will be a stream with specialized
+     * methods for working with pairs of values.</p>
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param mapper The function to apply.
+     * @param <R> The type of the first element in the new pair.
+     * @param <S> The type of the second element in the new pair.
+     * @return A stream with each element from this one mapped
+     * according to the mapper function.
+     * @throws NullPointerException If the mapper is {@code null}.
+     *
+     * @see BiStream
+     */
+    public <R, S> BiStream<R, S> biMap(final Function<? super T, ? extends Pair<R, S>> mapper) {
+        return new StreamBiMap<>(this, Objects.requireNonNull(mapper));
+    }
 
     /**
      * Applies the given mapper function to each element and
@@ -528,7 +539,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException if the mapper is {@code null}.
      */
     public <R> Stream<R> map(final Function<? super T, ? extends R> mapper) {
-        return new MapStream<>(this, Objects.requireNonNull(mapper));
+        return new StreamMap<>(this, Objects.requireNonNull(mapper));
     }
 
     /**
@@ -537,16 +548,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
-     *
      * @param filter The predicate to test against.
      * @return A stream containing all elements which failed
      * the test.
      * @throws NullPointerException If the filter is {@code null}.
      */
     public Stream<T> reject(final Predicate<? super T> filter) {
-        return new RejectStream<>(this, Objects.requireNonNull(filter));
+        return new StreamReject<>(this, Objects.requireNonNull(filter));
     }
 
     /**
@@ -555,31 +563,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @implNote If this stream is infinite, this operation
-     * will result in an infinite loop.
-     *
      * @param filter The predicate to test against.
      * @return A stream containing all elements which
      * passed the predicate.
+     * @throws NullPointerException If the filter is {@code null}.
      */
     public Stream<T> select(final Predicate<? super T> filter) {
-        return new RejectStream<>(this, Objects.requireNonNull(filter).negate());
-    }
-
-    /**
-     * Applies an action to each element without altering it.
-     *
-     * <p>This is an intermediate operation.</p>
-     *
-     * @param action The action to apply.
-     * @return An unaltered stream.
-     */
-    public Stream<T> inspect(final Consumer<? super T> action) {
-        Objects.requireNonNull(action);
-        return map(value -> {
-            action.accept(value);
-            return value;
-        });
+        return new StreamReject<>(this, Objects.requireNonNull(filter).negate());
     }
 
     /**
@@ -590,7 +580,7 @@ public abstract class Stream<T> {
      * @return A stream containing only unique values.
      */
     public Stream<T> unique() {
-        return new UniqueStream<>(this);
+        return new StreamUnique<>(this);
     }
 
     /**
@@ -599,13 +589,12 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param count The number of elements
-     *                    to drop.
+     * @param count The number of elements to drop.
      * @return A stream without the first number
      * of elements specified.
      */
     public Stream<T> drop(final long count) {
-        return new DropStream<>(this, count);
+        return new StreamDrop<>(this, count);
     }
 
     /**
@@ -621,9 +610,10 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements failing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropUntil(final Predicate<? super T> predicate) {
-        return new DropUntilStream<>(this, Objects.requireNonNull(predicate));
+        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -639,9 +629,10 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements passing the predicate dropped.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropWhile(final Predicate<? super T> predicate) {
-        return new DropUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -655,7 +646,7 @@ public abstract class Stream<T> {
      * elements from this stream.
      */
     public Stream<T> take(final long count) {
-        return new TakeStream<>(this, count);
+        return new StreamTake<>(this, count);
     }
 
     /**
@@ -667,9 +658,10 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements which fail the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeUntil(final Predicate<? super T> predicate) {
-        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate));
+        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -681,9 +673,10 @@ public abstract class Stream<T> {
      * @param predicate The predicate to test against.
      * @return A stream with the first sequence of
      * elements which pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeWhile(final Predicate<? super T> predicate) {
-        return new TakeUntilStream<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -694,7 +687,7 @@ public abstract class Stream<T> {
      * @return A stream with this stream's elements cycled.
      */
     public Stream<T> cycle() {
-        return new CycleStream<>(this, -1);
+        return new StreamCycle<>(this, -1);
     }
 
     /**
@@ -713,7 +706,24 @@ public abstract class Stream<T> {
         if (times < 1) {
             return empty();
         }
-        return new CycleStream<>(this, times);
+        return new StreamCycle<>(this, times);
+    }
+
+    /**
+     * Applies an action to each element without altering it.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param action The action to apply.
+     * @return An unaltered stream.
+     * @throws NullPointerException If the action is {@code null}.
+     */
+    public Stream<T> inspect(final Consumer<? super T> action) {
+        Objects.requireNonNull(action);
+        return map(value -> {
+            action.accept(value);
+            return value;
+        });
     }
 
 
@@ -728,6 +738,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether all elements pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean allMatch(final Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
@@ -747,6 +758,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether any element passes the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean anyMatch(final Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
@@ -766,6 +778,7 @@ public abstract class Stream<T> {
      *
      * @param predicate The predicate to check against.
      * @return Whether no element passes the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
     public boolean noneMatch(final Predicate<? super T> predicate) {
         return allMatch(Objects.requireNonNull(predicate).negate());
@@ -779,7 +792,7 @@ public abstract class Stream<T> {
      * @return Whether this stream is empty.
      */
     public boolean isEmpty() {
-        return (sizeBounds().lower() == 0 && sizeBounds().upper() == 0) || !next().isPresent();
+        return !next().isPresent();
     }
 
     /**

@@ -3,11 +3,11 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Function;
 
-final class MapStream<T, R> extends Stream<R> {
+final class StreamMap<T, R> extends Stream<R> {
     private final Stream<T> prev;
     private final Function<? super T, ? extends R> mapper;
 
-    MapStream(final Stream<T> prev, final Function<? super T, ? extends R> mapper) {
+    StreamMap(final Stream<T> prev, final Function<? super T, ? extends R> mapper) {
         this.prev = prev;
         this.mapper = mapper;
     }
@@ -18,12 +18,7 @@ final class MapStream<T, R> extends Stream<R> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return prev.sizeBounds();
-    }
-
-    @Override
     protected Stream<R> copy() {
-        return new MapStream<>(prev.copy(), mapper);
+        return new StreamMap<>(prev.copy(), mapper);
     }
 }

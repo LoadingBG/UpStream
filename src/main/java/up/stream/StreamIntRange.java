@@ -2,14 +2,14 @@ package up.stream;
 
 import java.util.Optional;
 
-final class IntRangeStream extends Stream<Integer> {
+final class StreamIntRange extends Stream<Integer> {
     private final int start;
     private final int end;
     private final int step;
     private int curr;
     private boolean hasWrapped;
 
-    IntRangeStream(final int start, final int end, final int step) {
+    StreamIntRange(final int start, final int end, final int step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -35,12 +35,7 @@ final class IntRangeStream extends Stream<Integer> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Integer> copy() {
-        return new IntRangeStream(start, end, step);
+        return new StreamIntRange(start, end, step);
     }
 }

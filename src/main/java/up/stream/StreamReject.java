@@ -3,11 +3,11 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-final class RejectStream<T> extends Stream<T> {
+final class StreamReject<T> extends Stream<T> {
     private final Stream<T> prev;
     private final Predicate<? super T> filter;
 
-    RejectStream(final Stream<T> prev, final Predicate<? super T> filter) {
+    StreamReject(final Stream<T> prev, final Predicate<? super T> filter) {
         this.prev = prev;
         this.filter = filter;
     }
@@ -22,12 +22,7 @@ final class RejectStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(0, prev.sizeBounds().upper());
-    }
-
-    @Override
     protected Stream<T> copy() {
-        return new RejectStream<>(prev.copy(), filter);
+        return new StreamReject<>(prev.copy(), filter);
     }
 }

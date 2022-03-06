@@ -2,12 +2,12 @@ package up.stream;
 
 import java.util.Optional;
 
-final class TakeStream<T> extends Stream<T> {
+final class StreamTake<T> extends Stream<T> {
     private final Stream<T> prev;
     private final long elemsToTake;
     private long elemsTaken;
 
-    TakeStream(final Stream<T> prev, final long elemsToTake) {
+    StreamTake(final Stream<T> prev, final long elemsToTake) {
         this.prev = prev;
         this.elemsToTake = elemsToTake;
         elemsTaken = 0;
@@ -23,12 +23,7 @@ final class TakeStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(prev.sizeBounds().lower(), Math.min(prev.sizeBounds().upper(), elemsToTake));
-    }
-
-    @Override
     protected Stream<T> copy() {
-        return new TakeStream<>(prev.copy(), elemsToTake);
+        return new StreamTake<>(prev.copy(), elemsToTake);
     }
 }

@@ -2,13 +2,13 @@ package up.stream;
 
 import java.util.Optional;
 
-final class CycleStream<T> extends Stream<T> {
+final class StreamCycle<T> extends Stream<T> {
     private final Stream<T> prev;
     private final long times;
     private Stream<T> curr;
     private long currCycle;
 
-    CycleStream(final Stream<T> prev, final long times) {
+    StreamCycle(final Stream<T> prev, final long times) {
         this.prev = prev;
         this.times = times;
         curr = prev.copy();
@@ -27,12 +27,7 @@ final class CycleStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.infinite();
-    }
-
-    @Override
     protected Stream<T> copy() {
-        return new CycleStream<>(prev, times);
+        return new StreamCycle<>(prev, times);
     }
 }

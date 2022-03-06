@@ -2,14 +2,14 @@ package up.stream;
 
 import java.util.Optional;
 
-final class ByteRangeStream extends Stream<Byte> {
+final class StreamByteRange extends Stream<Byte> {
     private final byte start;
     private final byte end;
     private final byte step;
     private byte curr;
     private boolean hasWrapped;
 
-    ByteRangeStream(final byte start, final byte end, final byte step) {
+    StreamByteRange(final byte start, final byte end, final byte step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -35,12 +35,7 @@ final class ByteRangeStream extends Stream<Byte> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Byte> copy() {
-        return new ByteRangeStream(start, end, step);
+        return new StreamByteRange(start, end, step);
     }
 }

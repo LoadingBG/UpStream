@@ -2,14 +2,14 @@ package up.stream;
 
 import java.util.Optional;
 
-final class LongRangeStream extends Stream<Long> {
+final class StreamLongRange extends Stream<Long> {
     private final long start;
     private final long end;
     private final long step;
     private long curr;
     private boolean hasWrapped;
 
-    LongRangeStream(final long start, final long end, final long step) {
+    StreamLongRange(final long start, final long end, final long step) {
         this.start = start;
         this.end = end;
         this.step = step;
@@ -35,12 +35,7 @@ final class LongRangeStream extends Stream<Long> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return SizeBounds.sized((end - start) / step);
-    }
-
-    @Override
     protected Stream<Long> copy() {
-        return new LongRangeStream(start, end, step);
+        return new StreamLongRange(start, end, step);
     }
 }

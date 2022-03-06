@@ -7,9 +7,10 @@
 
 ## Conventions
 - New stream subclass:
-  - Name: Base class stream prefix + Method name in base class with capital first letter + "Stream":
-    - `Stream#enumerate` &#8594; `EnumerateStream`
-    - `BiStream#map` &#8594; `BiMapStream`
+  - Name: name of the class the method is implemented in + name of the method:
+    - `Stream#enumerate` &#8594; `StreamEnumerate`
+    - `BiStream#map` &#8594; `BiStreamMap`
+    - `Stream#biMap` &#8594; `StreamBiMap`
 - Creator methods:
   - Only `Stream` should contain creator methods.
 - Javadoc formula:

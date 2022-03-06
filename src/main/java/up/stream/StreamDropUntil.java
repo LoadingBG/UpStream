@@ -3,12 +3,12 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-final class DropUntilStream<T> extends Stream<T> {
+final class StreamDropUntil<T> extends Stream<T> {
     private final Stream<T> prev;
     private final Predicate<? super T> filter;
     private boolean hasDropped;
 
-    DropUntilStream(final Stream<T> prev, final Predicate<? super T> filter) {
+    StreamDropUntil(final Stream<T> prev, final Predicate<? super T> filter) {
         this.prev = prev;
         this.filter = filter;
         hasDropped = false;
@@ -27,12 +27,7 @@ final class DropUntilStream<T> extends Stream<T> {
     }
 
     @Override
-    protected SizeBounds sizeBounds() {
-        return new SizeBounds(0, prev.sizeBounds().upper());
-    }
-
-    @Override
     protected Stream<T> copy() {
-        return new DropUntilStream<>(prev.copy(), filter);
+        return new StreamDropUntil<>(prev.copy(), filter);
     }
 }

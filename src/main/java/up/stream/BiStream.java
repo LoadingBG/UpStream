@@ -217,4 +217,31 @@ public abstract class BiStream<T, U> {
     public BiStream<T, U> takeWhile(final BiPredicate<? super T, ? super U> predicate) {
         return new BiStreamTakeWhile<>(this, Objects.requireNonNull(predicate));
     }
+
+    /**
+     * Cycles this stream infinitely many times.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @return A stream with this stream's elements cycled.
+     */
+    public BiStream<T, U> cycle() {
+        return map(Pair::new).cycle().biMap(Function.identity());
+    }
+
+    /**
+     * Cycles this stream the specified number
+     * of times. If {@code times} is less than 1,
+     * an {@linkplain Stream#empty() empty stream} will
+     * be returned.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param times The number of times to cycle
+     *              the elements.
+     * @return A stream with this stream's elements cycled.
+     */
+    public BiStream<T, U> cycle(final long times) {
+        return map(Pair::new).cycle(times).biMap(Function.identity());
+    }
 }

@@ -25,6 +25,7 @@
 | `BiStream#unique`  | Make a specialized stream for this operation             |
 | `BiStream#drop`    | Make a specialized stream for this operation             |
 | `BiStream#take`    | Make a specialized stream for this operation             |
+| `BiStream#cycle`   | Make a specialized stream for this operation             |
 
 ## Creators
 

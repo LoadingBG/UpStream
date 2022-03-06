@@ -262,4 +262,29 @@ public abstract class BiStream<T, U> {
             return new Pair<>(t, u);
         });
     }
+
+
+
+    // Terminal Operations
+
+    /**
+     * Checks if all pairs of elements in this stream pass
+     * the predicate.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param predicate The predicate to check against.
+     * @return Whether all pairs pass the predicate.
+     * @throws NullPointerException If the predicate is {@code null}.
+     */
+    public boolean allMatch(final BiPredicate<? super T, ? super U> predicate) {
+        Objects.requireNonNull(predicate);
+        for (Optional<Pair<T, U>> curr = next(); curr.isPresent(); curr = next()) {
+            final Pair<T, U> pair = curr.get();
+            if (!predicate.test(pair.first(), pair.second())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

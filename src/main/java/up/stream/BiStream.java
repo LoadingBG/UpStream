@@ -333,4 +333,20 @@ public abstract class BiStream<T, U> {
     public boolean isEmpty() {
         return !next().isPresent();
     }
+
+    /**
+     * Performs an action on each pair of elements of this stream.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @param action The action to perform.
+     * @throws NullPointerException If the action is {@code null}.
+     */
+    public void forEach(final BiConsumer<? super T, ? super U> action) {
+        Objects.requireNonNull(action);
+        for (Optional<Pair<T, U>> curr = next(); curr.isPresent(); curr = next()) {
+            final Pair<T, U> pair = curr.get();
+            action.accept(pair.first(), pair.second());
+        }
+    }
 }

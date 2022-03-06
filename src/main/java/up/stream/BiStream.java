@@ -322,4 +322,15 @@ public abstract class BiStream<T, U> {
     public boolean noneMatch(final BiPredicate<? super T, ? super U> predicate) {
         return allMatch(Objects.requireNonNull(predicate).negate());
     }
+
+    /**
+     * Checks if this stream contains no elements.
+     *
+     * <p>This is a terminal operation.</p>
+     *
+     * @return Whether this stream is empty.
+     */
+    public boolean isEmpty() {
+        return !next().isPresent();
+    }
 }

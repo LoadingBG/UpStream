@@ -2,6 +2,7 @@ package up.stream;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -243,5 +244,22 @@ public abstract class BiStream<T, U> {
      */
     public BiStream<T, U> cycle(final long times) {
         return map(Pair::new).cycle(times).biMap(Function.identity());
+    }
+
+    /**
+     * Applies an action to each pair of elements without altering it.
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @param action The action to apply.
+     * @return An unaltered stream.
+     * @throws NullPointerException If the action is {@code null}.
+     */
+    public BiStream<T, U> inspect(final BiConsumer<? super T, ? super U> action) {
+        Objects.requireNonNull(action);
+        return biMap((t, u) -> {
+            action.accept(t, u);
+            return new Pair<>(t, u);
+        });
     }
 }

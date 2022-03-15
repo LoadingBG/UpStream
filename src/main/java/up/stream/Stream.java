@@ -741,6 +741,22 @@ public abstract class Stream<T> {
     }
 
     /**
+     * Enumerates this stream's elements into a new stream of pairs.
+     *
+     * <p>Indices for the new stream start from 0.</p>
+     *
+     * <p>The result will be a stream with specialized
+     * methods for working with pairs of values.</p>
+     *
+     * <p>This is an intermediate operation.</p>
+     *
+     * @return An enumerated stream.
+     */
+    public BiStream<Long, T> enumerate() {
+        return new StreamEnumerate<>(this);
+    }
+
+    /**
      * Applies an action to each element without altering it.
      *
      * <p>This is an intermediate operation.</p>

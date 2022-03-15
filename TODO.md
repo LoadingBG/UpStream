@@ -183,7 +183,7 @@
 ```diff
 + cycle()
 + cycle(long)
-  enumerate()
++ enumerate()
 + inspect(Consumer<T>)
   zip(Stream<U>) // + other collections
 - enumerateByStep(long)

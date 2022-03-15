@@ -1,5 +1,6 @@
 package up.stream;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -244,6 +245,18 @@ public abstract class Stream<T> {
      */
     public static Stream<Character> ofCharArray(final char[] chars) {
         return StreamOfArray.of(Objects.requireNonNull(chars));
+    }
+
+    /**
+     * Creates a new stream of the elements in the collection.
+     *
+     * @param collection The collection.
+     * @param <T> The type of the elements.
+     * @return A new stream of the elements.
+     * @throws NullPointerException If the collection is {@code null}.
+     */
+    public static <T> Stream<T> ofCollection(final Collection<T> collection) {
+        return new StreamOfCollection<>(Objects.requireNonNull(collection));
     }
 
     /**

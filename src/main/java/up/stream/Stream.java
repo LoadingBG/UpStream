@@ -1,6 +1,7 @@
 package up.stream;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -257,6 +258,23 @@ public abstract class Stream<T> {
      */
     public static <T> Stream<T> ofCollection(final Collection<T> collection) {
         return new StreamOfCollection<>(Objects.requireNonNull(collection));
+    }
+
+    /**
+     * Creates a new stream of pairs for each key and
+     * its corresponding value in the map.
+     *
+     * <p>The result will be a stream with specialized
+     * methods for working with pairs of values.</p>
+     *
+     * @param map The map.
+     * @param <T> The type of the first element in the pair.
+     * @param <U> The type of the second element in the pair.
+     * @return A stream of the pairs in the map.
+     * @throws NullPointerException If the map is {@code null}.
+     */
+    public static <T, U> BiStream<T, U> ofMap(final Map<T, U> map) {
+        return new StreamOfMap<>(Objects.requireNonNull(map));
     }
 
     /**

@@ -49,7 +49,7 @@
 
 ```diff
 + ofCollection(Collection<T>)
-  ofMap(Map<T, U>)
++ ofMap(Map<T, U>)
 - ofSet(Set<T>)
 ```
 

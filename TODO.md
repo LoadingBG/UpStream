@@ -50,7 +50,7 @@
 ```diff
   ofCollection(Collection<T>)
   ofMap(Map<T, U>)
-  ofSet(Set<T>)
+- ofSet(Set<T>)
 ```
 
 ### Ranges

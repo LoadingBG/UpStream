@@ -246,6 +246,8 @@ public abstract class BiStream<T, U> {
         return map(Pair::new).cycle(times).biMap(Function.identity());
     }
 
+    // BiStream#enumerate here
+
     /**
      * Applies an action to each pair of elements without altering it.
      *

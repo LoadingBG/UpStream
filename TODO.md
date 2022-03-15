@@ -48,9 +48,9 @@
 ### Collections
 
 ```diff
-  ofCollection(Collection<T>)
-  ofMap(Map<T, U>)
-  ofSet(Set<T>)
++ ofCollection(Collection<T>)
++ ofMap(Map<T, U>)
+- ofSet(Set<T>)
 ```
 
 ### Ranges

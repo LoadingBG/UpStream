@@ -4,10 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import up.stream.util.Pair;
 
@@ -528,6 +525,19 @@ public abstract class Stream<T> {
      */
     public static <T> Stream<T> generate(final Supplier<? extends T> generator) {
         return new StreamGenerate<>(Objects.requireNonNull(generator));
+    }
+
+    /**
+     * Creates a new stream by repeatedly applying
+     * the mapper function to the seed.
+     *
+     * @param seed The initial value.
+     * @param mapper The function to apply.
+     * @param <T> The type of the elements.
+     * @return A stream of the generated elements.
+     */
+    public static <T> Stream<T> iterate(final T seed, final UnaryOperator<T> mapper) {
+        return new StreamIterate<>(seed, Objects.requireNonNull(mapper));
     }
 
 

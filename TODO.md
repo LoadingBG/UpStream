@@ -81,7 +81,7 @@
 ```diff
 + empty()
 + generate(Supplier<T>)
-  iterate(T, UnaryOperator<T>)
++ iterate(T, UnaryOperator<T>)
 - iterate(T, Predicate<T>, UnaryOperator<T>)
 ```
 

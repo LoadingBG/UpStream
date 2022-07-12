@@ -3,7 +3,7 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-class StreamIterate<T> extends Stream<T> {
+final class StreamIterate<T> extends Stream<T> {
     private final T seed;
     private final UnaryOperator<T> mapper;
     private T curr;
@@ -11,14 +11,13 @@ class StreamIterate<T> extends Stream<T> {
     StreamIterate(final T seed, final UnaryOperator<T> mapper) {
         this.seed = seed;
         this.mapper = mapper;
-        curr = seed;
+        curr = null;
     }
 
     @Override
     protected Optional<T> next() {
-        final T copy = curr;
-        curr = mapper.apply(curr);
-        return Optional.of(copy);
+        curr = curr == null ? seed : mapper.apply(curr);
+        return Optional.ofNullable(curr);
     }
 
     @Override

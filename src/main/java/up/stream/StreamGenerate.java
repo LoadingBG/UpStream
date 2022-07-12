@@ -12,11 +12,13 @@ final class StreamGenerate<T> extends Stream<T> {
 
     @Override
     protected Optional<T> next() {
-        return Optional.of(supplier.get());
+        return Optional.ofNullable(supplier.get());
     }
 
     @Override
     protected Stream<T> copy() {
-        return new StreamGenerate<>(supplier);
+        // No state, even if a proper copy is done,
+        // the supplier's state cannot be reset
+        return this;
     }
 }

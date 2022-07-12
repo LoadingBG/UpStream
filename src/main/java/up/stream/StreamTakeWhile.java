@@ -3,27 +3,34 @@ package up.stream;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-final class StreamReject<T> extends Stream<T> {
+final class StreamTakeWhile<T> extends Stream<T> {
     private final Stream<T> upstream;
     private final Predicate<? super T> predicate;
+    private boolean isTaking;
 
-    StreamReject(final Stream<T> upstream, final Predicate<? super T> predicate) {
+    StreamTakeWhile(final Stream<T> upstream, final Predicate<? super T> predicate) {
         this.upstream = upstream;
         this.predicate = predicate;
+        isTaking = true;
     }
 
     @Override
     protected Optional<T> next() {
+        if (!isTaking) {
+            return Optional.empty();
+        }
+
         Optional<T> elem = upstream.next();
         // Prevent Objects#requireNonNull check in Optional#filter
-        while (elem.isPresent() && predicate.test(elem.get())) {
-            elem = upstream.next();
+        if (elem.isPresent() && predicate.test(elem.get())) {
+            return elem;
         }
-        return elem;
+        isTaking = false;
+        return Optional.empty();
     }
 
     @Override
     protected Stream<T> copy() {
-        return new StreamReject<>(upstream.copy(), predicate);
+        return new StreamTakeWhile<>(upstream.copy(), predicate);
     }
 }

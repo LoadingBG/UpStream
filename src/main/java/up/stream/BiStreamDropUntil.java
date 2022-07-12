@@ -6,26 +6,27 @@ import java.util.function.BiPredicate;
 import up.stream.util.Pair;
 
 final class BiStreamDropUntil<T, U> extends BiStream<T, U> {
-    private final BiStream<T, U> prev;
+    private final BiStream<T, U> upstream;
     private final BiPredicate<? super T, ? super U> predicate;
     private boolean hasDropped;
 
-    BiStreamDropUntil(final BiStream<T, U> prev, final BiPredicate<? super T, ? super U> predicate) {
-        this.prev = prev;
+    BiStreamDropUntil(final BiStream<T, U> upstream, final BiPredicate<? super T, ? super U> predicate) {
+        this.upstream = upstream;
         this.predicate = predicate;
         hasDropped = false;
     }
 
     @Override
     protected Optional<Pair<T, U>> next() {
-        Optional<Pair<T, U>> curr = prev.next();
+        Optional<Pair<T, U>> curr = upstream.next();
         if (!hasDropped) {
             while (curr.isPresent()) {
+                // Prevent Objects#requireNonNull check in Optional#filter
                 final Pair<T, U> pair = curr.get();
                 if (predicate.test(pair.first(), pair.second())) {
                     break;
                 }
-                curr = prev.next();
+                curr = upstream.next();
             }
             hasDropped = true;
         }
@@ -34,6 +35,6 @@ final class BiStreamDropUntil<T, U> extends BiStream<T, U> {
 
     @Override
     protected BiStream<T, U> copy() {
-        return new BiStreamDropUntil<>(prev.copy(), predicate);
+        return new BiStreamDropUntil<>(upstream.copy(), predicate);
     }
 }

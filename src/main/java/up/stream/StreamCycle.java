@@ -3,31 +3,29 @@ package up.stream;
 import java.util.Optional;
 
 final class StreamCycle<T> extends Stream<T> {
-    private final Stream<T> prev;
+    private final Stream<T> upstream;
     private final long times;
-    private Stream<T> curr;
-    private long currCycle;
+    private Stream<T> currStream;
 
-    StreamCycle(final Stream<T> prev, final long times) {
-        this.prev = prev;
+    StreamCycle(final Stream<T> upstream, final long times) {
+        this.upstream = upstream;
         this.times = times;
-        curr = prev.copy();
-        currCycle = 1;
+        currStream = upstream.copy();
     }
 
     @Override
     protected Optional<T> next() {
-        Optional<T> elem = curr.next();
-        if (!elem.isPresent() && (times == -1 || currCycle != times)) {
-            curr = prev.copy();
-            elem = curr.next();
-            ++currCycle;
+        final Optional<T> elem = currStream.next();
+        if (elem.isPresent()) {
+            return elem;
         }
-        return elem;
+        currStream = upstream.copy();
+        return currStream.next();
     }
 
     @Override
     protected Stream<T> copy() {
-        return new StreamCycle<>(prev, times);
+        // Upstream is not modified
+        return new StreamCycle<>(upstream, times);
     }
 }

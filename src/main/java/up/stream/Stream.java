@@ -518,6 +518,9 @@ public abstract class Stream<T> {
      * Creates a new stream by repeatedly getting
      * values from the given generator.
      *
+     * <p>If the generator returns {@code null},
+     * the stream will terminate.</p>
+     *
      * @param generator The generator of values.
      * @param <T> The type of the elements.
      * @return A stream with the generated values.
@@ -530,6 +533,9 @@ public abstract class Stream<T> {
     /**
      * Creates a new stream by repeatedly applying
      * the mapper function to the seed.
+     *
+     * <p>If the mapper returns {@code null},
+     * the stream will terminate.</p>
      *
      * @param seed The initial value.
      * @param mapper The function to apply.
@@ -589,13 +595,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param filter The predicate to test against.
+     * @param predicate The predicate to test against.
      * @return A stream containing all elements which failed
      * the test.
-     * @throws NullPointerException If the filter is {@code null}.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
-    public Stream<T> reject(final Predicate<? super T> filter) {
-        return new StreamReject<>(this, Objects.requireNonNull(filter));
+    public Stream<T> reject(final Predicate<? super T> predicate) {
+        return new StreamReject<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -604,13 +610,13 @@ public abstract class Stream<T> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param filter The predicate to test against.
+     * @param predicate The predicate to test against.
      * @return A stream containing all elements which
      * passed the predicate.
-     * @throws NullPointerException If the filter is {@code null}.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
-    public Stream<T> select(final Predicate<? super T> filter) {
-        return new StreamReject<>(this, Objects.requireNonNull(filter).negate());
+    public Stream<T> select(final Predicate<? super T> predicate) {
+        return new StreamReject<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -654,7 +660,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropUntil(final Predicate<? super T> predicate) {
-        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate));
+        return new StreamDropWhile<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -673,7 +679,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> dropWhile(final Predicate<? super T> predicate) {
-        return new StreamDropUntil<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamDropWhile<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -702,7 +708,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeUntil(final Predicate<? super T> predicate) {
-        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate));
+        return new StreamTakeWhile<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -717,7 +723,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public Stream<T> takeWhile(final Predicate<? super T> predicate) {
-        return new StreamTakeUntil<>(this, Objects.requireNonNull(predicate).negate());
+        return new StreamTakeWhile<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -743,11 +749,8 @@ public abstract class Stream<T> {
      *              the elements.
      * @return A stream with this stream's elements cycled.
      */
-    public Stream<T> cycle(final long times) {
-        if (times < 1) {
-            return empty();
-        }
-        return new StreamCycle<>(this, times);
+    public Stream<T> repeat(final long times) {
+        return times < 1 ? empty() : new StreamRepeat<>(this, times);
     }
 
     /**
@@ -776,11 +779,7 @@ public abstract class Stream<T> {
      * @throws NullPointerException If the action is {@code null}.
      */
     public Stream<T> inspect(final Consumer<? super T> action) {
-        Objects.requireNonNull(action);
-        return map(value -> {
-            action.accept(value);
-            return value;
-        });
+        return new StreamInspect<>(this, Objects.requireNonNull(action));
     }
 
 

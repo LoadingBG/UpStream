@@ -89,13 +89,13 @@ public abstract class BiStream<T, U> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param filter The predicate to test against.
+     * @param predicate The predicate to test against.
      * @return A stream containing all pairs of elements
      * which failed the test.
-     * @throws NullPointerException If the filter is {@code null}.
+     * @throws NullPointerException If the predicate is {@code null}.
      */
-    public BiStream<T, U> reject(final BiPredicate<? super T, ? super U> filter) {
-        return select(Objects.requireNonNull(filter).negate());
+    public BiStream<T, U> reject(final BiPredicate<? super T, ? super U> predicate) {
+        return new BiStreamSelect<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -104,12 +104,12 @@ public abstract class BiStream<T, U> {
      *
      * <p>This is an intermediate operation.</p>
      *
-     * @param filter The predicate to test against.
+     * @param predicate The predicate to test against.
      * @return A stream containing all pairs of elements
      * which passed the predicate.
      */
-    public BiStream<T, U> select(final BiPredicate<? super T, ? super U> filter) {
-        return new BiStreamSelect<>(this, Objects.requireNonNull(filter));
+    public BiStream<T, U> select(final BiPredicate<? super T, ? super U> predicate) {
+        return new BiStreamSelect<>(this, Objects.requireNonNull(predicate));
     }
 
     /**
@@ -172,7 +172,7 @@ public abstract class BiStream<T, U> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public BiStream<T, U> dropWhile(final BiPredicate<? super T, ? super U> predicate) {
-        return dropUntil(Objects.requireNonNull(predicate).negate());
+        return new BiStreamDropUntil<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class BiStream<T, U> {
      * @throws NullPointerException If the predicate is {@code null}.
      */
     public BiStream<T, U> takeUntil(final BiPredicate<? super T, ? super U> predicate) {
-        return takeWhile(Objects.requireNonNull(predicate).negate());
+        return new BiStreamTakeWhile<>(this, Objects.requireNonNull(predicate).negate());
     }
 
     /**
@@ -242,8 +242,8 @@ public abstract class BiStream<T, U> {
      *              the elements.
      * @return A stream with this stream's elements cycled.
      */
-    public BiStream<T, U> cycle(final long times) {
-        return map(Pair::new).cycle(times).biMap(Function.identity());
+    public BiStream<T, U> repeat(final long times) {
+        return map(Pair::new).repeat(times).biMap(Function.identity());
     }
 
     // BiStream#enumerate here
@@ -258,11 +258,7 @@ public abstract class BiStream<T, U> {
      * @throws NullPointerException If the action is {@code null}.
      */
     public BiStream<T, U> inspect(final BiConsumer<? super T, ? super U> action) {
-        Objects.requireNonNull(action);
-        return biMap((t, u) -> {
-            action.accept(t, u);
-            return new Pair<>(t, u);
-        });
+        return new BiStreamInspect<>(this, Objects.requireNonNull(action));
     }
 
 

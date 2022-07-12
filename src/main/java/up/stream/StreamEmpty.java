@@ -10,6 +10,7 @@ final class StreamEmpty<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new StreamEmpty<>();
+        // No state
+        return this;
     }
 }

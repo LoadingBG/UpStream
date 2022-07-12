@@ -6,12 +6,12 @@ import java.util.function.BiPredicate;
 import up.stream.util.Pair;
 
 final class BiStreamTakeWhile<T, U> extends BiStream<T, U> {
-    private final BiStream<T, U> prev;
+    private final BiStream<T, U> upstream;
     private final BiPredicate<? super T, ? super U> predicate;
     private boolean isTaking;
 
-    BiStreamTakeWhile(final BiStream<T, U> prev, final BiPredicate<? super T, ? super U> predicate) {
-        this.prev = prev;
+    BiStreamTakeWhile(final BiStream<T, U> upstream, final BiPredicate<? super T, ? super U> predicate) {
+        this.upstream = upstream;
         this.predicate = predicate;
         isTaking = true;
     }
@@ -21,11 +21,13 @@ final class BiStreamTakeWhile<T, U> extends BiStream<T, U> {
         if (!isTaking) {
             return Optional.empty();
         }
-        final Optional<Pair<T, U>> curr = prev.next();
-        if (curr.isPresent()) {
-            final Pair<T, U> pair = curr.get();
+
+        final Optional<Pair<T, U>> elem = upstream.next();
+        // Prevent Objects#requireNonNull check in Optional#filter
+        if (elem.isPresent()) {
+            final Pair<T, U> pair = elem.get();
             if (predicate.test(pair.first(), pair.second())) {
-                return curr;
+                return elem;
             }
         }
         isTaking = false;
@@ -34,6 +36,6 @@ final class BiStreamTakeWhile<T, U> extends BiStream<T, U> {
 
     @Override
     protected BiStream<T, U> copy() {
-        return new BiStreamTakeWhile<>(prev.copy(), predicate);
+        return new BiStreamTakeWhile<>(upstream.copy(), predicate);
     }
 }

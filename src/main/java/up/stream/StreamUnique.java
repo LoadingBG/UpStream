@@ -5,19 +5,20 @@ import java.util.Optional;
 import java.util.Set;
 
 final class StreamUnique<T> extends Stream<T> {
-    private final Stream<T> prev;
+    private final Stream<T> upstream;
     private final Set<T> uniques;
 
-    StreamUnique(final Stream<T> prev) {
-        this.prev = prev;
+    StreamUnique(final Stream<T> upstream) {
+        this.upstream = upstream;
         uniques = new HashSet<>();
     }
 
     @Override
     protected Optional<T> next() {
-        Optional<T> curr = prev.next();
+        Optional<T> curr = upstream.next();
+        // Prevent Objects#requireNonNull check in Optional#filter
         while (curr.isPresent() && uniques.contains(curr.get())) {
-            curr = prev.next();
+            curr = upstream.next();
         }
         curr.ifPresent(uniques::add);
         return curr;
@@ -25,6 +26,6 @@ final class StreamUnique<T> extends Stream<T> {
 
     @Override
     protected Stream<T> copy() {
-        return new StreamUnique<>(prev.copy());
+        return new StreamUnique<>(upstream.copy());
     }
 }

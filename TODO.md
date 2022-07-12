@@ -26,6 +26,7 @@
 | `BiStream#drop`      | Make a specialized stream for this operation             |
 | `BiStream#take`      | Make a specialized stream for this operation             |
 | `BiStream#cycle`     | Make a specialized stream for this operation             |
+| `BiStream#repeat`    | Make a specialized stream for this operation             |
 | `BiStream#noneMatch` | Implement from scratch instead of negating the predicate |
 
 ## Creators
@@ -72,6 +73,7 @@
 + closedLongRange(long, long, long)
 + longRange(long, long)
 + longRange(long, long, long)
+- reverse ranges
 - countFrom(long)
 - countBy(long, long)
 ```
@@ -182,7 +184,7 @@
 
 ```diff
 + cycle()
-+ cycle(long)
++ repeat(long)
 + enumerate()
 + inspect(Consumer<T>)
   zip(Stream<U>) // + other collections
@@ -205,6 +207,8 @@
   isSortedByKey(Function<T, Comparable>)
   isSortedByKeyUsing(Function<T, R>, Comparator<R>)
   isSortedUsing(Comparator<T>)
+  isUnique()
+  isUniqueByKey(Function<T, R>)
 - contains(T)
 ```
 

@@ -3,12 +3,12 @@ package up.stream;
 import java.util.Optional;
 
 final class StreamDrop<T> extends Stream<T> {
-    private final Stream<T> prev;
+    private final Stream<T> upstream;
     private final long elemsToDrop;
     private boolean hasDropped;
 
-    StreamDrop(final Stream<T> prev, final long elemsToDrop) {
-        this.prev = prev;
+    StreamDrop(final Stream<T> upstream, final long elemsToDrop) {
+        this.upstream = upstream;
         this.elemsToDrop = elemsToDrop;
         hasDropped = false;
     }
@@ -17,15 +17,15 @@ final class StreamDrop<T> extends Stream<T> {
     protected Optional<T> next() {
         if (!hasDropped) {
             for (long i = 0; i < elemsToDrop; ++i) {
-                prev.next();
+                upstream.next();
             }
             hasDropped = true;
         }
-        return prev.next();
+        return upstream.next();
     }
 
     @Override
     protected Stream<T> copy() {
-        return new StreamDrop<>(prev.copy(), elemsToDrop);
+        return new StreamDrop<>(upstream.copy(), elemsToDrop);
     }
 }
